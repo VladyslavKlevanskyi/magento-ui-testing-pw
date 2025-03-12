@@ -2,6 +2,7 @@ import pytest
 
 from playwright.sync_api import BrowserContext
 from pages.create_account import CreateAccount
+from pages.eco_friendly import CollectionsEcoFriendly
 
 
 @pytest.fixture()
@@ -15,3 +16,8 @@ def page(context: BrowserContext, playwright):
 @pytest.fixture()
 def create_account_page(page):
     return CreateAccount(page)
+
+
+@pytest.fixture()
+def collections_eco_friendly_page(page):
+    return CollectionsEcoFriendly(page)

@@ -1,5 +1,3 @@
-from time import sleep
-
 from playwright.sync_api import Page, expect
 from data.urls import BASE_URL
 from pages.locator import common_locators as comm_locators
@@ -19,16 +17,6 @@ class BasePage:
             raise NotImplementedError(
                 "Page can not be opened for this page class"
             )
-
-    # def find(self, locator: str, element: Page = None) -> Locator:
-    #     if element is None:
-    #         return self.page.locator(locator)
-    #     return element.locator(locator)
-
-    # def find_all(self, locator: tuple, element: Page = None):
-    #     if element is None:
-    #         return self.page.locator(locator)
-    #     return element.locator(locator)
 
     def check_title_is(self, text):
         expect(self.page).to_have_title(text)
@@ -57,3 +45,9 @@ class BasePage:
         search_field.press("Enter")
         message = self.page.locator(comm_locators.search_result_message)
         expect(message).to_have_text("Your search returned no results.")
+
+    def check_create_an_account_button_functionality(self):
+        link, text = comm_locators.registration_button_role
+        create_account_button = self.page.get_by_role(link, name=text)
+        create_account_button.click()
+        expect(self.page).to_have_title("Create New Customer Account")
