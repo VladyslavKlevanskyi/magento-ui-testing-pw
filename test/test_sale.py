@@ -48,9 +48,7 @@ def test_search_field_functionality(sale_page):
     "Ensure the create an account button redirects to the registration page."
 )
 @pytest.mark.high
-def test_create_an_account_button_redirects_to_registration_page(
-    sale_page
-):
+def test_create_an_account_button_redirects_to_registration_page(sale_page):
     sale_page.open_page()
     sale_page.click_create_an_account_button()
     sale_page.check_title_is(text="Create New Customer Account")

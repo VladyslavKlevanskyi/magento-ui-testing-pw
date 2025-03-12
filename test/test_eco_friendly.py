@@ -80,7 +80,7 @@ def test_page_title(collections_eco_friendly_page):
 
 @allure.feature("Positive")
 @allure.title(
-    "Ensure the page does not display more than the selected number of products"
+    "Ensure the page doesn't display more than the selected number of products"
 )
 @pytest.mark.high
 def test_page_does_not_display_more_than_selected_number_of_products(
