@@ -1,3 +1,5 @@
+from time import sleep
+
 from playwright.sync_api import Page, expect
 from data.urls import BASE_URL
 from pages.locator import common_locators as comm_locators
@@ -29,12 +31,29 @@ class BasePage:
     #     return element.locator(locator)
 
     def check_title_is(self, text):
-        assert self.page.title() == text
+        expect(self.page).to_have_title(text)
 
     def check_h1_is(self, text):
         h1 = self.page.locator(comm_locators.tag_h1)
         expect(h1).to_have_text(text)
 
-    def check_logo_clickability(self):
+    def click_logo(self):
         self.page.locator(comm_locators.logo).click()
-        assert self.page.title() == "Home Page"
+
+    def check_if_the_search_field_will_find_existing_product(
+            self, product_name: str
+    ):
+        search_field = self.page.locator(comm_locators.search_field_id)
+        search_field.fill(product_name)
+        search_field.press("Enter")
+        products = self.page.locator(comm_locators.product_name)
+        expect(products.first).to_contain_text(product_name)
+
+    def check_search_field_will_not_find_nonexistent_product(
+            self, product_name: str
+    ):
+        search_field = self.page.locator(comm_locators.search_field_id)
+        search_field.fill(product_name)
+        search_field.press("Enter")
+        message = self.page.locator(comm_locators.search_result_message)
+        expect(message).to_have_text("Your search returned no results.")
