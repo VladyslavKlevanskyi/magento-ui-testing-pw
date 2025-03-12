@@ -1,3 +1,4 @@
+import allure
 import pytest
 
 from data import product_data
@@ -12,18 +13,24 @@ from data.create_account_data import (
 )
 
 
+@allure.feature("Positive")
+@allure.title("Ensure that the page has the correct h1 header")
 @pytest.mark.medium
 def test_page_h1_header(create_account_page):
     create_account_page.open_page()
     create_account_page.check_h1_is(text=h1_text)
 
 
+@allure.feature("Positive")
+@allure.title("Ensure that the page has the correct title")
 @pytest.mark.low
 def test_page_title(create_account_page):
     create_account_page.open_page()
     create_account_page.check_title_is(text=title)
 
 
+@allure.feature("Positive")
+@allure.title("Ensure that clicking on the logo redirects to the home page.")
 @pytest.mark.high
 def test_click_on_logo_redirects_to_home_page(create_account_page):
     create_account_page.open_page()
@@ -31,6 +38,8 @@ def test_click_on_logo_redirects_to_home_page(create_account_page):
     create_account_page.check_title_is(text="Home Page")
 
 
+@allure.feature("Positive&Negative")
+@allure.title("Ensure the search field works on this page.")
 @pytest.mark.high
 def test_search_field_functionality(create_account_page):
     create_account_page.open_page()
@@ -42,6 +51,8 @@ def test_search_field_functionality(create_account_page):
     )
 
 
+@allure.feature("Positive")
+@allure.title("Ensure that the account is created with valid data.")
 @pytest.mark.smoke
 def test_create_account_with_valid_data(create_account_page):
     create_account_page.open_page()
@@ -58,6 +69,8 @@ def test_create_account_with_valid_data(create_account_page):
     )
 
 
+@allure.feature("Negative")
+@allure.title("Ensure that the account is not created with invalid data.")
 @pytest.mark.smoke
 def test_create_account_with_invalid_data(create_account_page):
     create_account_page.open_page()
@@ -95,6 +108,8 @@ def test_create_account_with_invalid_data(create_account_page):
     )
 
 
+@allure.feature("Negative")
+@allure.title("Ensure that the first name and last name fields are required.")
 @pytest.mark.critical
 def test_first_and_last_name_fields_are_required(create_account_page):
     create_account_page.open_page()
@@ -109,6 +124,8 @@ def test_first_and_last_name_fields_are_required(create_account_page):
     )
 
 
+@allure.feature("Negative")
+@allure.title("Email field validation")
 @pytest.mark.critical
 @pytest.mark.parametrize(
     argnames="email, message",
@@ -125,6 +142,8 @@ def test_email_field_validation(create_account_page, email, message):
     )
 
 
+@allure.feature("Positive")
+@allure.title("Password strength validation")
 @pytest.mark.medium
 @pytest.mark.parametrize(
     argnames="password, message",
