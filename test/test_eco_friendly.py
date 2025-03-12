@@ -37,8 +37,10 @@ def test_create_an_account_button_redirects_to_registration_page(
         collections_eco_friendly_page
 ):
     collections_eco_friendly_page.open_page()
-    (collections_eco_friendly_page.
-     check_create_an_account_button_functionality())
+    collections_eco_friendly_page.click_create_an_account_button()
+    collections_eco_friendly_page.check_title_is(
+        text="Create New Customer Account"
+    )
 
 
 @allure.feature("Positive")

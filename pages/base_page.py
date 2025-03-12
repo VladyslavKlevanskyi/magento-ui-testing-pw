@@ -46,8 +46,7 @@ class BasePage:
         message = self.page.locator(comm_locators.search_result_message)
         expect(message).to_have_text("Your search returned no results.")
 
-    def check_create_an_account_button_functionality(self):
+    def click_create_an_account_button(self):
         link, text = comm_locators.registration_button_role
         create_account_button = self.page.get_by_role(link, name=text)
         create_account_button.click()
-        expect(self.page).to_have_title("Create New Customer Account")
