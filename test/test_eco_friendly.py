@@ -11,6 +11,7 @@ from data import product_data
 def test_click_on_logo_redirects_to_home_page(collections_eco_friendly_page):
     collections_eco_friendly_page.open_page()
     collections_eco_friendly_page.click_logo()
+    collections_eco_friendly_page.check_title_is(text="Home Page")
 
 
 @allure.feature("Positive&Negative")
