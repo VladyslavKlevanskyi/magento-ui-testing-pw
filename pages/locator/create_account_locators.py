@@ -1,0 +1,15 @@
+first_name_id = "#firstname"
+last_name_id = "#lastname"
+email_id = "#email_address"
+password_id = "#password"
+password_confirmation_id = "#password-confirmation"
+submit_button_xpath = "//*[@title='Create an Account']"
+successful_registration_alert_xpath = (
+    "//*[@data-bind='html: $parent.prepareMessageForHtml(message.text)']"
+)
+first_name_alert_id = "#firstname-error"
+last_name_alert_id = "#lastname-error"
+email_alert_id = "#email_address-error"
+password_strength_meter_id = "#password-strength-meter-label"
+password_alert_id = "#password-error"
+password_conf_alert_id = "#password-confirmation-error"
