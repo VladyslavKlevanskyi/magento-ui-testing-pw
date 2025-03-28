@@ -43,24 +43,43 @@ jobs:
 
       - name: Run all tests
         if: "github.event.inputs.deployment_target == 'all'"
-        run: pytest
-      
+        run: pytest --alluredir=allure-results
+
       - name: Run smoke tests
         if: "github.event.inputs.deployment_target == 'smoke'"
-        run: pytest -m smoke
+        run: pytest -m smoke --alluredir=allure-results
 
       - name: Run critical tests
         if: "github.event.inputs.deployment_target == 'critical'"
-        run: pytest -m critical
+        run: pytest -m critical --alluredir=allure-results
 
       - name: Run high tests
         if: "github.event.inputs.deployment_target == 'high'"
-        run: pytest -m high
+        run: pytest -m high --alluredir=allure-results
 
       - name: Run medium tests
         if: "github.event.inputs.deployment_target == 'medium'"
-        run: pytest -m medium
+        run: pytest -m medium --alluredir=allure-results
 
       - name: Run low tests
         if: "github.event.inputs.deployment_target == 'low'"
-        run: pytest -m low
+        run: pytest -m low --alluredir=allure-results
+
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "microsoft"
+          java-version: "17"
+
+      - name: Install Allure
+        run: sudo wget https://github.com/allure-framework/allure2/releases/download/2.33.0/allure-2.33.0.tgz && sudo tar -zxvf allure-2.33.0.tgz -C /opt/ && sudo ln -s /opt/allure-2.33.0/bin/allure /usr/bin/allure
+
+      - name: Generate Allure report
+        run: allure generate -c allure-results -o allure-report
+
+      - name: Upload Allure report
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report
+          retention-days: 1
