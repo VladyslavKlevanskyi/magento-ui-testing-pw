@@ -1,0 +1,63 @@
+name: Autotests
+
+on:
+  workflow_dispatch:
+    inputs:
+      deployment_target:
+        description: Choose tests set
+        required: true
+        default: smoke
+        type: choice
+        options:
+          - all
+          - smoke
+          - critical
+          - high
+          - medium
+          - low
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    name: Run autotests
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4  # Clones your code into the working environment
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.5'  # Specify the Python version you are using
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run flake8
+        run: flake8
+
+      - name: Run all tests
+        if: "github.event.inputs.deployment_target == 'all'"
+        run: pytest
+      
+      - name: Run smoke tests
+        if: "github.event.inputs.deployment_target == 'smoke'"
+        run: pytest -m smoke
+
+      - name: Run critical tests
+        if: "github.event.inputs.deployment_target == 'critical'"
+        run: pytest -m critical
+
+      - name: Run high tests
+        if: "github.event.inputs.deployment_target == 'high'"
+        run: pytest -m high
+
+      - name: Run medium tests
+        if: "github.event.inputs.deployment_target == 'medium'"
+        run: pytest -m medium
+
+      - name: Run low tests
+        if: "github.event.inputs.deployment_target == 'low'"
+        run: pytest -m low
