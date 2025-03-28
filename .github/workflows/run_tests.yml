@@ -16,6 +16,11 @@ on:
           - medium
           - low
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   run-tests:
     runs-on: ubuntu-latest
@@ -81,11 +86,24 @@ jobs:
         run: sudo wget https://github.com/allure-framework/allure2/releases/download/2.33.0/allure-2.33.0.tgz && sudo tar -zxvf allure-2.33.0.tgz -C /opt/ && sudo ln -s /opt/allure-2.33.0/bin/allure /usr/bin/allure
 
       - name: Generate Allure report
-        run: allure generate -c allure-results -o allure-report
+        run: allure generate -c allure-results -o _site
 
       - name: Upload Allure report
         uses: actions/upload-artifact@v4
         with:
-          name: allure-report
-          path: allure-report
+          name: _site
+          path: _site
           retention-days: 1
+
+  publish-report:
+    needs: run-tests
+    name: Publish Allure report
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
